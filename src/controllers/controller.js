@@ -43,10 +43,7 @@ const registeration=async(req,res)=>{
 // login form
 const login=async(req,res)=>{
     try{
-        console.log("0")
-
         const {email, password}=req.body;
-console.log(email,password,"1")
         const userExist= await User.findOne({email});
 
         if(!userExist){
@@ -55,7 +52,6 @@ console.log(email,password,"1")
 
         const ifPassword = await userExist.comparePassword(password);
 
-console.log(userExist,ifPassword,"ifPassword")
         if(ifPassword){
             res.status(200).json({
                 message:"Login Successful",

@@ -10,7 +10,7 @@ router
 .route("/registration")
 .post(validate(registerationSchema), controller.registeration);
 
-router.route("/loginForm").post(controller.login);
+router.route("/api/loginForm").post(controller.login);
 
 router.route("/contact").post(controller.contact);
 

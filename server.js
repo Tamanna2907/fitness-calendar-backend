@@ -21,7 +21,7 @@ app.use("/", router);
 app.use(errorMiddleware);
 
 connectDb().then(()=>{
-    app.listen(4000,()=>{
-        console.log("server running on 4000...")
+    app.listen(5000,()=>{
+        console.log("server running on 5000...")
     })
 })

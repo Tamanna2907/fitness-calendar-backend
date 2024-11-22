@@ -29,7 +29,7 @@ const registeration=async(req,res)=>{
 
         const userCreated= await User.create({username, email, phone, password});
 
-        res.status(200 ).json({messgae:userCreated,
+        res.status(200).json({messgae:userCreated,
         token: await userCreated.generateToken(),
         userId:userCreated._id.toString(),
         })
@@ -57,7 +57,9 @@ const login=async(req,res)=>{
             res.status(200).json({
                 message:"Login Successful",
                 token: await userExist.generateToken(),
-                userId: userExist._id.toString()   
+                userId: userExist._id.toString(),
+                userName: userExist.username,
+                email: userExist.email
             })
         }else{
             return res.status(400).json({message:"Inavalid Credentials"});
@@ -85,10 +87,9 @@ const contact=async(req, res)=>{
 
 const cycleInfo = async(req, res)=>{
     try {
-        const {cycleLength, periodDuration, lastPeriodDate, cycleRegularity} = req.body;
+        const {cycleLength, periodDuration, lastPeriodDate, cycleRegularity, userId} = req.body;
        
-        console.log(req.body)
-        CycleInfo.create({cycleLength, periodDuration, lastPeriodDate, cycleRegularity});
+        CycleInfo.create({cycleLength, periodDuration, lastPeriodDate, cycleRegularity, userId});
 
         res.status(200).json("Data Saved Successfully")
     } catch (error) {

@@ -24,19 +24,23 @@ const registeration=async(req,res)=>{
         const userExist = await User.findOne({email:email});
 
         if(userExist){
-            return res.status(400).json({msg:"email already exists"});
+            return res.status(400).json({message:"email already exists"});
         }
 
         const userCreated= await User.create({username, email, phone, password});
 
-        res.status(200).json({messgae:userCreated,
+        res.status(200).json({message:userCreated,
         token: await userCreated.generateToken(),
         userId:userCreated._id.toString(),
         })
 
     }catch(error){
-        console.log("error:",error)
-        res.status(500).json("some error occurred")
+        const status=422;
+        const message= error.errors[0].message;
+        const err= {
+            status,message
+        }
+        next(err)
     }
 }
 
@@ -66,8 +70,12 @@ const login=async(req,res)=>{
         }
 
     }catch(error){
-        console.log(error);
-        res.status(500).json("error detected")
+        const status=422;
+        const message= error.errors[0].message;
+        const err= {
+            status,message
+        }
+        next(err)
     }
 }
 
@@ -112,10 +120,18 @@ const selectCheck = async(req, res)=>{
 }
 
 
+const user = async (req, res) =>{
+    try {
+        const userData = req.user;
+
+       return res.status(200).json({userData})
+    } catch (error) {
+        console.log('error from the user route' + error)
+    }
+}
 
 
 
 
 
-
-module.exports = { home, registeration, login, contact, cycleInfo, selectCheck }
+module.exports = { home, registeration, login, contact, cycleInfo, selectCheck, user }
